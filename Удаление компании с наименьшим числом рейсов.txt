@@ -1,0 +1,20 @@
+-- ========================================
+-- Название задачи: Удалить компании с наименьшим числом рейсов
+-- Описание:     Удалить компании, совершившие наименьшее количество рейсов.
+-- Автор:        Е. Заржицкая
+-- Дата:         2026-07-19
+-- ========================================
+
+WITH count_list AS (
+    SELECT company, COUNT(id) AS cnt
+    FROM Trip
+    GROUP BY company
+),
+min_vl AS (
+    SELECT MIN(cnt) AS mincnt
+    FROM count_list
+)
+
+DELETE FROM Company
+WHERE id IN (
+    SELECT company
